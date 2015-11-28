@@ -1,5 +1,6 @@
 package io.confluent.metastore.secure;
 
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hive.conf.HiveConf;
 import org.apache.hadoop.hive.metastore.IMetaStoreClient;
@@ -7,6 +8,7 @@ import org.apache.hadoop.hive.metastore.TableType;
 import org.apache.hadoop.hive.metastore.api.FieldSchema;
 import org.apache.hadoop.hive.ql.metadata.Table;
 import org.apache.hadoop.hive.serde2.typeinfo.TypeInfoFactory;
+import org.apache.hadoop.security.SecurityUtil;
 import org.apache.hadoop.security.UserGroupInformation;
 import org.apache.hive.hcatalog.common.HCatUtil;
 
@@ -31,6 +33,9 @@ public class MetaStoreSecure {
       String hiveConfDir = args[0];
       String keytab = args[1];
       String principal = args[2];
+      Configuration conf = new Configuration();
+      SecurityUtil.setAuthenticationMethod(UserGroupInformation.AuthenticationMethod.KERBEROS, conf);
+      UserGroupInformation.setConfiguration(conf);
       UserGroupInformation ugi = UserGroupInformation.loginUserFromKeytabAndReturnUGI(principal, keytab);
       System.out.println("From keytab:" + ugi.isFromKeytab());
       System.out.println("Principal: " + ugi.getUserName());
