@@ -1,6 +1,5 @@
 package io.confluent.metastore.secure;
 
-
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hive.conf.HiveConf;
 import org.apache.hadoop.hive.metastore.IMetaStoreClient;
@@ -8,6 +7,7 @@ import org.apache.hadoop.hive.metastore.TableType;
 import org.apache.hadoop.hive.metastore.api.FieldSchema;
 import org.apache.hadoop.hive.ql.metadata.Table;
 import org.apache.hadoop.hive.serde2.typeinfo.TypeInfoFactory;
+import org.apache.hadoop.security.UserGroupInformation;
 import org.apache.hive.hcatalog.common.HCatUtil;
 
 import java.util.ArrayList;
@@ -29,6 +29,9 @@ public class MetaStoreSecure {
   public static void main(String[] args) {
     try {
       String hiveConfDir = args[0];
+      String keytab = args[1];
+      String principal = args[2];
+      UserGroupInformation.loginUserFromKeytab(principal, keytab);
       MetaStoreSecure secure = new MetaStoreSecure(hiveConfDir);
       IMetaStoreClient client = secure.getIMetaStoreClient();
 
