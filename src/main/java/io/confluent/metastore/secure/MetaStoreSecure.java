@@ -31,7 +31,9 @@ public class MetaStoreSecure {
       String hiveConfDir = args[0];
       String keytab = args[1];
       String principal = args[2];
-      UserGroupInformation.loginUserFromKeytab(principal, keytab);
+      UserGroupInformation ugi = UserGroupInformation.loginUserFromKeytabAndReturnUGI(principal, keytab);
+      System.out.println("From keytab:" + ugi.isFromKeytab());
+      System.out.println("Principal: " + ugi.getUserName());
       MetaStoreSecure secure = new MetaStoreSecure(hiveConfDir);
       IMetaStoreClient client = secure.getIMetaStoreClient();
 
