@@ -36,7 +36,8 @@ public class MetaStoreSecure {
       Configuration conf = new Configuration();
       SecurityUtil.setAuthenticationMethod(UserGroupInformation.AuthenticationMethod.KERBEROS, conf);
       UserGroupInformation.setConfiguration(conf);
-      UserGroupInformation ugi = UserGroupInformation.loginUserFromKeytabAndReturnUGI(principal, keytab);
+      UserGroupInformation.loginUserFromKeytab(principal, keytab);
+      UserGroupInformation ugi = UserGroupInformation.getLoginUser();
       System.out.println("From keytab:" + ugi.isFromKeytab());
       System.out.println("Principal: " + ugi.getUserName());
       MetaStoreSecure secure = new MetaStoreSecure(hiveConfDir);
