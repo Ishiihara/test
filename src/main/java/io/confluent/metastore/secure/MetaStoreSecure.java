@@ -45,7 +45,7 @@ public class MetaStoreSecure {
 
       Table table = new Table("default", "test");
       table.setTableType(TableType.MANAGED_TABLE);
-      List<FieldSchema> columns = new ArrayList<>();
+      List<FieldSchema> columns = new ArrayList<FieldSchema>();
       FieldSchema fieldSchema = new FieldSchema("a", TypeInfoFactory.intTypeInfo.getTypeName(), "");
       columns.add(fieldSchema);
       table.setFields(columns);
